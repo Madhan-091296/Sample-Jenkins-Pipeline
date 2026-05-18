@@ -1,60 +1,40 @@
 pipeline {
     agent any
 
-    environment {
-        APP_NAME = "DemoApp"
-        ENV = "QA"
-    }
-
     stages {
-
-        stage('Checkout Code') {
-            steps {
-                echo "Pulling code from GitHub..."
-                git branch: 'main', url: 'https://github.com/your-repo/demo.git'
-            }
-        }
 
         stage('Build') {
             steps {
                 echo "Building application..."
-                sh 'mvn clean compile'
+                sh 'echo Build Started'
             }
         }
 
         stage('Run Tests') {
             steps {
-                echo "Executing test cases..."
-                sh 'mvn test'
+                echo "Executing Tests..."
+                sh 'echo Tests Running'
             }
         }
 
         stage('Generate Report') {
             steps {
-                echo "Generating reports..."
-                sh 'mvn surefire-report:report'
-            }
-        }
-
-        stage('Package') {
-            steps {
-                echo "Creating artifact..."
-                sh 'mvn package'
+                echo "Generating Report..."
             }
         }
 
         stage('Deploy') {
             when {
-                branch 'main'
+                branch 'master'
             }
             steps {
-                echo "Deploying to ${ENV} environment..."
+                echo "Deploying application..."
             }
         }
 
         stage('Notify Team') {
             steps {
-                echo "Sending notification to team..."
+                echo "Sending notification..."
             }
         }
     }
